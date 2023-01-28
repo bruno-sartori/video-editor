@@ -137,10 +137,12 @@
 
 .playback {
   position: relative;
+  display: flex;
   margin-top: 1rem;
   margin-left: 24px;
   margin-right: 24px;
   height: 90px;
+  width: 100%;
   background: #2f3b44;
   margin-bottom: 1rem;
   border-radius: 6px;
@@ -171,15 +173,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: var(--highlight);
 }
 
-.playback .grabber.start {
-  background: #a8d736;
-}
-
-.playback .grabber.end {
-  background: #fc4242;
-}
 
 .playback .grabber:hover {
   transform: scaleY(1.4);
@@ -201,6 +197,7 @@
   cursor: pointer;
   pointer-events: none;
   z-index: 3;
+  flex: 1;
 }
 
 .playback__snapshots {
@@ -238,13 +235,18 @@
 
 .timeline {
   width: 100%;
-  overflow-x: scroll;
   display: flex;
   flex: 1;
+}
+
+.timeline__scroll {
+  overflow-x: scroll;
+  display: flex;
   flex-direction: column;
 }
 
 .timeline__info {
+  width: fit-content;
   display: flex;
   flex-direction: row;
   height: 36px;
@@ -252,8 +254,34 @@
 }
 
 .timeline__time {
-  width: 48px;
+  width: 24px;
   margin-left: 24px;
   color: var(--color-secondary);
   border-left: 2px solid var(--color-secondary);
+  padding: 4px;
+}
+
+.timeline__time--half {
+  height: 50%;
+}
+
+/* --------------CHAPTERS COMPONENT------------*/
+.chapters {
+  display: flex;
+  flex-direction: row;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  margin-left: 24px;
+  height: 36px;
+}
+
+.chapters__chapter {
+  position: relative;
+  height: 24px;
+  background-color: chartreuse;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 4px;
 }

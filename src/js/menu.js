@@ -1,5 +1,9 @@
+let selectedFile = {};
+
 const showSelectedFiles = (files) => {
   logger.info('[menu]', `File Count: ${files.length}`);
+  
+  selectedFile = files[0];
 
   for (let i = 0; i < files.length; i++) {
     logger.info('[menu]', `File ${i}: (${typeof files[i]}) : <${files[i]}> ${files[i].name} ${files[i].size}`);

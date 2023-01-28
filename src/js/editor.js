@@ -1,5 +1,6 @@
 let timings = [];
 let currentlyGrabbed = { index: 0, type: 'none' };
+let ranges = [];
 
 const updateProgress = (event) => {
   const videoElement = getVideoElement();
@@ -41,18 +42,15 @@ const handleMouseMoveWhenGrabbed = (event) => {
   let time = timings
   let seek = videoElement.duration * seekRatio
 
-  if ((type === 'start')/* && (seek > ((index !== 0) ? (time[index - 1].end + difference + 0.2) : 0)) && seek < time[index].end - difference*/) {
+  if ((type === 'start') && (seek > ((index !== 0) ? (time[index - 1].end + difference + 0.2) : 0)) && seek < time[index].end - difference) {
     progressElement.style.left = `${seekRatio * 100}%`
     videoElement.currentTime = seek
     time[index]['start'] = seek
     timings = time;
-    console.log('AQUIII', timings[index].start / videoElement.duration * 100);
     const grabberStart = document.getElementById(`grabberStart${index}`);
     grabberStart.style.left = `${seekRatio * 100}%`;
-  } else if ((type === 'end') /* && (seek > time[index].start + difference) && (seek < (index !== (timings.length - 1) ? time[index].start - difference - 0.2 : videoElement.duration))*/) {
-    console.log("END")
+  } else if ((type === 'end')  && (seek > time[index].start + difference) && (seek < (index !== (timings.length - 1) ? time[index].start - difference - 0.2 : videoElement.duration))) {
     progressElement.style.left = `${seekRatio * 100}%`
-    // videoElement.currentTime = time[index].start
     time[index]['end'] = seek
     timings = time;
     const grabberEnd = document.getElementById(`grabberEnd${index}`);
@@ -93,7 +91,7 @@ const addGrabbers = () => {
 
     for (let i = 0; i < timings.length; i++) {
       grabbersContainer.innerHTML += `
-        <div id='grabberStart${i}' class='grabber start' style="left: ${timings[0].start / videoElement.duration * 100}%"
+        <div id='grabberStart${i}' class='grabber' style="left: ${timings[0].start / videoElement.duration * 100}%"
           onMouseDown="handleGrabberMouseDown(event, ${i}, 'start')"
           onPointerDown="handleGrabberPointerDown(event, ${i}, 'start')"
         >
@@ -101,7 +99,7 @@ const addGrabbers = () => {
             <path class='st0' d='M1 14L1 14c-0.6 0-1-0.4-1-1V1c0-0.6 0.4-1 1-1h0c0.6 0 1 0.4 1 1v12C2 13.6 1.6 14 1 14zM5 14L5 14c-0.6 0-1-0.4-1-1V1c0-0.6 0.4-1 1-1h0c0.6 0 1 0.4 1 1v12C6 13.6 5.6 14 5 14zM9 14L9 14c-0.6 0-1-0.4-1-1V1c0-0.6 0.4-1 1-1h0c0.6 0 1 0.4 1 1v12C10 13.6 9.6 14 9 14z'/>
           </svg>
         </div>
-        <div id='grabberEnd${i}' class='grabber end' style="left: ${timings[0].end / videoElement.duration * 100}%"
+        <div id='grabberEnd${i}' class='grabber' style="left: ${timings[0].end / videoElement.duration * 100}%"
           onMouseDown="handleGrabberMouseDown(event, ${i}, 'end')"
           onPointerDown="handleGrabberPointerDown(event, ${i}, 'end')"
         >
@@ -139,15 +137,15 @@ const addActiveSegments = () => {
   let colors = ''
   let counter = 0;
   const videoElement = getVideoElement();
-  colors += `, rgb(240, 240, 240) 0%, rgb(240, 240, 240) ${timings[0].start / videoElement.duration * 100}%`
+  colors += `, rgba(240, 240, 240, 0) 0%, rgba(240, 240, 240, 0) ${timings[0].start / videoElement.duration * 100}%`
   for (let times of timings) {
     if (counter > 0) {
-      colors += `, rgb(240, 240, 240) ${timings[counter].end / videoElement.duration * 100}%, rgb(240, 240, 240) ${times.start / videoElement.duration * 100}%`
+      colors += `, rgba(240, 240, 240, 0) ${timings[counter].end / videoElement.duration * 100}%, rgba(240, 240, 240, 0) ${times.start / videoElement.duration * 100}%`
     }
-    colors += `, #ccc ${times.start / videoElement.duration * 100}%, #ccc ${times.end / videoElement.duration * 100}%`
+    colors += `, #655dc2 ${times.start / videoElement.duration * 100}%, #655dc2 ${times.end / videoElement.duration * 100}%`
     counter += 1
   }
-  colors += `, rgb(240, 240, 240) ${timings[counter - 1].end / videoElement.duration * 100}%, rgb(240, 240, 240) 100%`
+  colors += `, rgba(240, 240, 240, 0) ${timings[counter - 1].end / videoElement.duration * 100}%, rgba(240, 240, 240, 0) 100%`
   getSeekableElement().style.background = `linear-gradient(to right${colors})`
 };
 
@@ -162,22 +160,6 @@ const capture = () => {
   canvas.height = height;
   canvas.getContext("2d").drawImage(videoElement, 0, 0, width, height);
   snapshotsElement.appendChild(canvas);
-
-  /** Code to merge image **/
-  /** For instance, if I want to merge a play image on center of existing image **/
-  /*const playImage = new Image();
-  playImage.src = "path to image asset";
-  playImage.onload = () => {
-    const startX = video.videoWidth / 2 - playImage.width / 2;
-    const startY = video.videoHeight / 2 - playImage.height / 2;
-    canvas
-      .getContext("2d")
-      .drawImage(playImage, startX, startY, playImage.width, playImage.height);
-    canvas.toBlob() = (blob) => {
-      const img = new Image();
-      img.src = window.URL.createObjectUrl(blob);
-    };
-  };*/
 };
 
 const createSnapshotList = () => {
@@ -190,7 +172,7 @@ const createSnapshotList = () => {
       video.currentTime = i * 15;
       i++;
 
-      if (i === 9) {
+      if (i === 16) {
         clearInterval(interval);
       }
     }, [500]);
@@ -202,10 +184,21 @@ const createSnapshotList = () => {
 const fillTimeline = (duration, metric) => {
   const timelineInfo = getTimelineInfoElement();
 
+  const getTimeString = (timeNumber) => {
+    switch (metric) {
+      case 'hours':
+        return floatToHHMM(timeNumber);
+      case 'minutes':
+        return floatToMMSS(timeNumber);
+      default:
+        return floatToMMSS(timeNumber);
+    }
+  };
+
   if (timelineInfo) {
-    for (let i = 0; i <= duration; i = i + 0.5) {
+    for (let i = 0; i <= duration + 0.5; i = i + 0.5) {
       timelineInfo.innerHTML += `
-        <div class="timeline__time">${i}</div>
+        <div class="timeline__time ${isFloat(i) ? 'timeline__time--half' : ''}">${getTimeString(i)}</div>
       `;
     }
   }
@@ -227,13 +220,51 @@ const fillVideoInfo = () => {
   }
 }
 
+const saveRange = (title) => {
+  const chaptersElement = getChaptersElement();
+  const videoElement = getVideoElement();
+
+  const times = timings[0];
+  ranges.push({ title, range: { ...times } });
+  
+  const sizeRange = [
+    times.start / videoElement.duration * 100,
+    times.end / videoElement.duration * 100
+  ];
+
+  const range = document.createElement('div');
+  range.className = 'chapters__chapter';
+  range.innerHTML = title;
+  range.style.left = `${sizeRange[0]}%`
+  range.style.width = `${sizeRange[1] - sizeRange[0]}%`;
+
+  chaptersElement.append(range);
+};
+
+const exportJson = () => {
+  const json = {
+    fileName: selectedFile.name,
+    chapters: ranges,
+  };
+
+  logger.success('[editor]', JSON.stringify(json));
+
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(json));
+  const name = 'video-chapters.json';
+
+  const anchor = document.createElement('a');
+  anchor.href = dataStr;
+  anchor.download = name;
+  anchor.click();
+}
+
 const initEditor = () => {
   logger.info('[editor]', 'Initializing');
-
   const videoElement = getVideoElement();
+
   videoElement.onloadedmetadata = () => {
     if (timings.length === 0) {
-      timings.push({ 'start': 0, 'end': videoElement.duration });
+      timings.push({ 'start': 0, 'end': 120 });
       addGrabbers();
     }
 
