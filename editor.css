@@ -1,0 +1,259 @@
+/* Styling for Editing */
+.wrapper {
+  width: 50%;
+  padding: 1rem;
+  background-color: #000;
+  margin: auto;
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+
+}
+
+.video {
+  width: 100%;
+  cursor: pointer;
+}
+
+/* ----------CONTROLS ELEMENT----------- */
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.controls .player-controls button {
+  width: 34px;
+  margin: 0 0.125rem;
+}
+
+.controls .player-controls .play-control {
+  background: #2f3b44;
+  border: 0;
+  color: #a5b0b5;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.controls .player-controls .play-control:hover {
+  background: #445562;
+}
+
+.controls .player-controls .play-control:active {
+  color: #ffffff;
+}
+
+.controls .player-controls .seek-start {
+  background: #2f3b44;
+  border: 0;
+  color: #a5b0b5;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.controls .player-controls .seek-start:hover {
+  background: #445562;
+}
+
+.controls .player-controls .seek-start:active {
+  color: #ffffff;
+}
+
+.controls .player-controls .seek-end {
+  background: #2f3b44;
+  border: 0;
+  color: #a5b0b5;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.controls .player-controls .seek-end:hover {
+  background: #445562;
+}
+
+.controls .player-controls .seek-end:active {
+  color: #ffffff;
+}
+
+.controls .settings-control {
+  background: #2f3b44;
+  border: 0;
+  color: #a5b0b5;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.controls .settings-control:active {
+  color: #ffffff;
+}
+
+.controls .settings-control:hover {
+  background: #445562;
+}
+
+.controls .trim-control {
+  background: #0072cf;
+  border: 0;
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.controls .trim-control:hover {
+  background: #038eff;
+}
+
+/* ----------PLAYBACK ELEMENT----------- */
+
+.playback {
+  position: relative;
+  margin-top: 1rem;
+  margin-left: 24px;
+  margin-right: 24px;
+  height: 90px;
+  background: #2f3b44;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+}
+
+.playback .seekable {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-primary);
+  opacity: 0.3;
+  z-index: 3;
+  cursor: pointer;
+}
+
+.playback .grabber {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 18px;
+  border-radius: 2px;
+  z-index: 4;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.playback .grabber.start {
+  background: #a8d736;
+}
+
+.playback .grabber.end {
+  background: #fc4242;
+}
+
+.playback .grabber:hover {
+  transform: scaleY(1.4);
+}
+
+.playback .grabber svg {
+  /* user-drag: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none; */
+}
+
+.playback .progress {
+  background: #0072cf;
+  opacity: 0.3;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  cursor: pointer;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.playback__snapshots {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  z-index: 2;
+}
+
+/* ----------TOOLBAR ELEMENT----------- */
+
+.toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 48px;
+}
+
+.toolbar__group {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.toolbar__button {
+  border-radius: 6px;
+  background-color: var(--button-secondary);
+  outline: none;
+  border: none;
+  padding: 8px;
+}
+
+/* ----------TIMELINE ELEMENT----------- */
+
+.timeline {
+  width: 100%;
+  overflow-x: scroll;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.timeline__info {
+  display: flex;
+  flex-direction: row;
+  height: 36px;
+  border-top: 2px solid var(--color-secondary);
+}
+
+.timeline__time {
+  width: 48px;
+  margin-left: 24px;
+  color: var(--color-secondary);
+  border-left: 2px solid var(--color-secondary);
+}

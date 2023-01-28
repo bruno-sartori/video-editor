@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Editor</title>
+
+  <link rel="stylesheet" href="./reset.css" />
+  <link rel="stylesheet" href="./index.css" />
+  <link rel="stylesheet" href="./editor.css" />
+</head>
+
+<body>
+  <main>
+    <aside class="sidebar">
+      <h1 class="sidebar__title">Video Maker</h1>
+
+      <div class="video-uploader">
+        <h2 class="video-uploader__title">Add Video</h2>
+        <div class="video-uploader__picker" ondragenter="onDragEnter(event)" ondragover="onDragOver(event)"
+          ondrop="onDrop(event)" onclick="onClick(event)">
+          <input type="file" id="file" class="video-uploader__file" accept="video/*" onchange="onSelectFile(event)"
+            hidden>
+          + Upload Video
+        </div>
+      </div>
+      <div>
+        <button title="Add grabber" class="trim-control margined">Add</button>
+        <button title="Delete grabber" class="trim-control margined">Delete</button>
+        <button title="Save changes" class="trim-control">Save</button>
+      </div>
+    </aside>
+    <section class="editor">
+      <div class="wrapper">
+        <video class="video" onclick="handleTogglePlayer()" ontimeupdate="handleTimeUpdate()" id="video" autoload="metadata"></video>
+      </div>
+    </section>
+    <footer id="footer">
+      <div class="toolbar">
+        <div class="toolbar__group">
+          <button title="undo" class="toolbar__button">
+            <img src="undo-arrow.svg" width="30" />
+          </button>
+          <button title="redo" class="toolbar__button">
+            <img src="redo-arrow.svg" width="30" />
+          </button>
+          <button title="add" class="toolbar__button">
+            <img src="plus.svg" width="30" />
+          </button>
+        </div>
+        <div class="toolbar__group">
+          <strong class="toolbar__timeinfo" id="timeInfo">00:00:00 / 00:00:00</strong>
+        </div>
+        <div class="toolbar__group">
+          <button title="save" class="toolbar__button">
+            <img src="save.svg" width="30" />
+          </button>
+          <button title="delete" class="toolbar__button">
+            <img src="trash.svg" width="30" />
+          </button>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline__info" id="timelineInfo">
+  
+        </div>
+        <div class="playback" id="playback">
+          <div id="grabbers"></div>
+          <div id="snapshots" class="playback__snapshots"></div>
+          <div onClick="updateProgress(event)" class="seekable" id="seekable"></div>
+          <div class="progress" id="progress"></div>
+        </div>
+      </div>
+    </footer>
+  </main>
+</body>
+<script src="utils.js" type="text/javascript"></script>
+<script src="menu.js" type="text/javascript"></script>
+<script src="editor.js" type="text/javascript"></script>
+<script src="main.js" type="text/javascript" ></script>
+<script>
+  window.onload = () => {
+    init();
+    addGrabbers();
+  }
+</script>
+
+</html>
